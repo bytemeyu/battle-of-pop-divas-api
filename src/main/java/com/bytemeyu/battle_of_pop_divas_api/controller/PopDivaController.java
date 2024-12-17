@@ -4,6 +4,8 @@ import com.bytemeyu.battle_of_pop_divas_api.service.PopDivaService;
 //Importa a classe PopDivaService, que será usada para chamar a lógica de negócio relacionada às Pop Divas.
 import com.bytemeyu.battleofpopdivas.popdiva.PopDiva;
 //Importa a classe PopDiva, que representa uma cantora pop.
+import org.springframework.http.HttpStatus;
+//Importa uma classe, que faz parte do Spring Framework, que contém uma enumeração de todos os códigos de status HTTP (ex.: HttpStatus.OK, HttpStatus.BAD_REQUEST, HttpStatus.CONFLICT) usados para indicar o resultado de uma requisição. Ela é amplamente utilizada em combinação com ResponseEntity para retornar respostas HTTP claras e consistentes
 import org.springframework.http.ResponseEntity;
 //Importa uma classe, que faz parte do Spring Framework, que permite controle total sobre a resposta HTTP enviada ao cliente. Permite customizar Status Code (200, 404, 500, etc.); Headers (como Content-Type); Body (o conteúdo da resposta, como JSON, texto ou binário).
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +41,14 @@ public class PopDivaController {
         PopDiva popDiva = popDivaService.postPopDiva(request.getName(), request.getMusicalGenre(), request.getNationality());
         //é criado um objeto popDiva, do tipo PopDiva, por meio da chamada do metodo postPopDiva (com seus parâmetros) do serviço [!] popDivaService [ele não está chamando ele mesmo - o metodo do próprio controller, rs]. lembrando que o metodo postPopDiva do popDivaService [do tipo PopDivaService] não só cria a popDiva, como a adiciona ao array popDivas
 
+        if (popDiva == null) {
+            // Caso a PopDiva não seja criada, nesse caso por ser repetida, retorna 409 Conflict
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(null); // Corpo da resposta é nulo [ou pode incluir uma mensagem personalizada]
+        }
+
         return ResponseEntity.ok(popDiva);
-        //retorna uma resposta HTTP, utilizando a classe ResponseEntity, que tem como corpo popDiva (representado por "(popDiva)") e código de status HTTP 200 OK (representado pelo ".ok")
+        //retorna uma resposta HTTP, utilizando a classe ResponseEntity, que tem como corpo popDiva (representado por "(popDiva)") e código de status HTTP 200 OK (representado pelo ".ok"), caso a PopDiva seja criada com sucesso
     }
 
     @GetMapping("/get-popdivas")
