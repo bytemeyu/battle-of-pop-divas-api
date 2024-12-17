@@ -97,17 +97,19 @@ public class PopDiva implements PopDivaInterface{
         }
     }
 
-    public void currentStatus() {
-        System.out.println("_________");
-        System.out.println(this.getName());
-        System.out.println(this.getMusicalGenre());
-        System.out.println(this.getNationality());
-        System.out.println("Grammy Nominations: " + this.getGrammyNominations());
-        System.out.println("Grammy Wins: " + this.getGrammyWins());
-        System.out.println("Scandals Score: " + this.getScandalsScore());
-        System.out.println("Wins: " + this.getWins());
-        System.out.println("Losses: " + this.getLosses());
-        System.out.println("_________");
+    public String currentStatus() {
+        String status = "_________\n" +
+                        this.getName() + "\n" +
+                        this.getMusicalGenre() + "\n" +
+                        this.getNationality() + "\n" +
+                        "Grammy Nominations: " + this.grammyNominations + "\n" +
+                        "Grammy Wins: " + this.getGrammyWins() + "\n" +
+                        "Scandals Score: " + this.getScandalsScore() + "\n" +
+                        "Wins: " + this.getWins() + "\n" +
+                        "Losses: " + this.getLosses() + "\n" +
+                        "_________ \n";
+
+        return status;
     }
 
 

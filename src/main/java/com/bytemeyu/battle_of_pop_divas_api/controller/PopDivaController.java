@@ -57,6 +57,18 @@ public class PopDivaController {
         return ResponseEntity.ok(popDivaService.getPopDivas());
         //retorna de maneira direta uma resposta HTTP, que tem como corpo o que é retornado do chamado do metodo getPopDivas() do serviço popDivaService e código de status HTTP 200 OK
     }
+
+    @PostMapping ("/popdiva-current-status")
+    public ResponseEntity<String> getPopDivaCurrentStatus(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+
+        if(popDivaName == null || popDivaService.findPopDiva(popDivaName) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+
+        return ResponseEntity.ok(popDivaService.getPopDivaCurrentStatus(popDivaName));
+    }
 }
 
 class PopDivaRequest {
