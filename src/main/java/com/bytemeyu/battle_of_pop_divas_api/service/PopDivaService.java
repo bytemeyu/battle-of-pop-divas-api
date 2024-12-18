@@ -54,21 +54,27 @@ public class PopDivaService {
         //que é o popDivas criado no início da classe PopDivaService e contém todas as Pop Divas adicionadas até o momento
     }
 
-    public String getPopDivaCurrentStatus(String name) {
-        for(PopDiva diva : popDivas) {
-            if(findPopDiva(name) != null) {
-                return diva.currentStatus();
-            }
+    public String popDivaCurrentStatus(String name) {
+        PopDiva diva = findPopDiva(name);
+        if(diva != null) {
+            return diva.currentStatus();
         }
         return "Pop diva not found";
     }
 
-    public String getPopDivaPresentation(String name) {
-        for(PopDiva diva : popDivas) {
-            if(findPopDiva(name) != null) {
-                return diva.presentation();
-            }
+    public String popDivaPresentation(String name) {
+        PopDiva diva = findPopDiva(name);
+        if(diva != null) {
+            return diva.presentation();
         }
         return "Pop diva not found";
+    }
+
+    public boolean postGrammyNominations(String name, int grammyNomination) {
+        PopDiva diva = findPopDiva(name);
+        if(diva != null) {
+            return diva.addGrammyNominations(grammyNomination);
+        }
+        return false;
     }
 }

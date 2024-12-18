@@ -61,7 +61,7 @@ public class PopDivaController {
     }
 
     @PostMapping ("/popdiva-current-status")
-    public ResponseEntity<String> getPopDivaCurrentStatus(@RequestBody PopDivaRequest request) {
+    public ResponseEntity<String> popDivaCurrentStatus(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
 
         if(popDivaName == null || popDivaService.findPopDiva(popDivaName) == null) {
@@ -69,11 +69,11 @@ public class PopDivaController {
                     .body(null);
         }
 
-        return ResponseEntity.ok(popDivaService.getPopDivaCurrentStatus(popDivaName));
+        return ResponseEntity.ok(popDivaService.popDivaCurrentStatus(popDivaName));
     }
 
     @PostMapping("/popdiva-presentation")
-    public ResponseEntity<String> getPopDivaPresentation(@RequestBody PopDivaRequest request) {
+    public ResponseEntity<String> popDivaPresentation(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
 
         if(popDivaName == null || popDivaService.findPopDiva(popDivaName) == null) {
@@ -81,7 +81,30 @@ public class PopDivaController {
                     .body(null);
         }
 
-        return ResponseEntity.ok(popDivaService.getPopDivaPresentation(popDivaName));
+        return ResponseEntity.ok(popDivaService.popDivaPresentation(popDivaName));
+    }
+
+    @PostMapping("post-grammy-nominations")
+    public ResponseEntity<String> postGrammyNominations(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+        int popDivaGrammyNominations = request.getGrammyNominations();
+        //aqui, ao invés de fazer com que o metodo receba o objeto DTO PopDivaRequest (que é populado com os dados do corpo da requisição), eu poderia ter usado parâmetros direto na URL para capturar essas informações:
+        //(@PathVariable String name, @RequestParam int grammyNominations)
+        //onde: @PathVariable captura parte da rota da URL ({name}). e @RequestParam lê valores enviados como parâmetros de consulta (ex.: ?nominations=5).
+        //mas optei por continuar usando DTO primeiro para manter a consistência (com os outros métodos do controller) e segundo porque o DTO mantém os dados organizados e facilita a validação, o que permite com que a aplicação seja mais escalável.
+
+        if(popDivaName == null || popDivaGrammyNominations < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid input data");
+        }
+
+        if(!popDivaService.postGrammyNominations(popDivaName, popDivaGrammyNominations)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Pop diva not found");
+        }
+
+        return ResponseEntity.ok("Grammy nomination added successfully");
+
     }
 }
 
@@ -92,6 +115,7 @@ class PopDivaRequest {
     private String name;
     private String musicalGenre;
     private String nationality;
+    private int grammyNominations;
 
     //esses getters e setters a seguir permitem que o Spring Boot mapeie automaticamente os valores do JSON recebido para os campos da classe [?].
     public String getName() {
@@ -116,5 +140,13 @@ class PopDivaRequest {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public int getGrammyNominations() {
+        return grammyNominations;
+    }
+
+    public void setGrammyNominations(int grammyNominations) {
+        this.grammyNominations = grammyNominations;
     }
 }

@@ -121,15 +121,23 @@ public class PopDiva implements PopDivaInterface{
     }
 
     @Override
-    public void addGrammyNominations(int grammyNomination) {
+    public boolean addGrammyNominations(int grammyNomination) {
+        if(grammyNomination < 0) {
+            return false;
+        }
         int totalGrammyNominations = this.getGrammyNominations() + grammyNomination;
         this.setGrammyNominations(totalGrammyNominations);
+        return true;
     }
 
     @Override
-    public void addGrammyWins(int grammyWin) {
+    public boolean addGrammyWins(int grammyWin) {
+        if(grammyWin < 0) {
+            return false;
+        }
         int totalGrammyWins = this.getGrammyWins() + grammyWin;
         this.setGrammyWins(totalGrammyWins);
+        return true;
     }
 
     @Override
