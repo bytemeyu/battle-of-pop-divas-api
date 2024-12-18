@@ -87,24 +87,42 @@ public class PopDivaController {
     @PostMapping("post-grammy-nominations")
     public ResponseEntity<String> postGrammyNominations(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
-        int popDivaGrammyNominations = request.getGrammyNominations();
+        int grammyNominations = request.getGrammyNominations();
         //aqui, ao invés de fazer com que o metodo receba o objeto DTO PopDivaRequest (que é populado com os dados do corpo da requisição), eu poderia ter usado parâmetros direto na URL para capturar essas informações:
         //(@PathVariable String name, @RequestParam int grammyNominations)
         //onde: @PathVariable captura parte da rota da URL ({name}). e @RequestParam lê valores enviados como parâmetros de consulta (ex.: ?nominations=5).
         //mas optei por continuar usando DTO primeiro para manter a consistência (com os outros métodos do controller) e segundo porque o DTO mantém os dados organizados e facilita a validação, o que permite com que a aplicação seja mais escalável.
 
-        if(popDivaName == null || popDivaGrammyNominations < 0) {
+        if(popDivaName == null || grammyNominations <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Invalid input data");
         }
 
-        if(!popDivaService.postGrammyNominations(popDivaName, popDivaGrammyNominations)) {
+        if(!popDivaService.postGrammyNominations(popDivaName, grammyNominations)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Pop diva not found");
         }
 
         return ResponseEntity.ok("Grammy nomination added successfully");
 
+    }
+
+    @PostMapping("post-grammy-wins")
+    public ResponseEntity<String> postGrammyWins(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+        int grammyWins = request.getGrammyWins();
+
+        if(popDivaName == null | grammyWins <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid input data");
+        }
+
+        if(!popDivaService.postGrammyWins(popDivaName, grammyWins)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Pop diva not found");
+        }
+
+        return ResponseEntity.ok("Grammy win added successfully");
     }
 }
 
@@ -116,6 +134,7 @@ class PopDivaRequest {
     private String musicalGenre;
     private String nationality;
     private int grammyNominations;
+    private int grammyWins;
 
     //esses getters e setters a seguir permitem que o Spring Boot mapeie automaticamente os valores do JSON recebido para os campos da classe [?].
     public String getName() {
@@ -148,5 +167,13 @@ class PopDivaRequest {
 
     public void setGrammyNominations(int grammyNominations) {
         this.grammyNominations = grammyNominations;
+    }
+
+    public int getGrammyWins() {
+        return grammyWins;
+    }
+
+    public void setGrammyWins(int grammyWins) {
+        this.grammyWins = grammyWins;
     }
 }

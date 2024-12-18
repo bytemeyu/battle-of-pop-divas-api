@@ -77,4 +77,13 @@ public class PopDivaService {
         }
         return false;
     }
+
+    public boolean postGrammyWins(String name, int grammyWins) {
+        PopDiva diva = findPopDiva(name);
+        System.out.println(grammyWins + " (grammy wins)");
+        if(diva != null) {
+            return diva.addGrammyWins(grammyWins);
+        }
+        return false;
+    }
 }
