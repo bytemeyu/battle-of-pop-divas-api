@@ -115,8 +115,9 @@ public class PopDiva implements PopDivaInterface{
 
 
     @Override
-    public void presentation() {
-        System.out.println("We present " + this.getName() + ", " + this.getNationality() + " " + this.getMusicalGenre() + " singer!");
+    public String presentation() {
+        String presentation = "We present " + this.getName() + ", " + this.getNationality() + " " + this.getMusicalGenre() + " singer!";
+        return presentation;
     }
 
     @Override

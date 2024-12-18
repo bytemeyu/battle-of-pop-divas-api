@@ -62,4 +62,13 @@ public class PopDivaService {
         }
         return "Pop diva not found";
     }
+
+    public String getPopDivaPresentation(String name) {
+        for(PopDiva diva : popDivas) {
+            if(findPopDiva(name) != null) {
+                return diva.presentation();
+            }
+        }
+        return "Pop diva not found";
+    }
 }

@@ -33,6 +33,8 @@ public class PopDivaController {
         //Com isso, o controlador pode usar o popDivaService para chamar métodos que existem no PopDivaService (como postPopDiva e getPopDivas).
     }
 
+
+
     @PostMapping("/post-popdiva")
     //adiciona a continuação do endpoint que direciona a esse metodo
     public ResponseEntity<PopDiva> postPopDiva(@RequestBody PopDivaRequest request) {
@@ -69,7 +71,21 @@ public class PopDivaController {
 
         return ResponseEntity.ok(popDivaService.getPopDivaCurrentStatus(popDivaName));
     }
+
+    @PostMapping("/popdiva-presentation")
+    public ResponseEntity<String> getPopDivaPresentation(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+
+        if(popDivaName == null || popDivaService.findPopDiva(popDivaName) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+
+        return ResponseEntity.ok(popDivaService.getPopDivaPresentation(popDivaName));
+    }
 }
+
+
 
 class PopDivaRequest {
     //PopDivaRequest é uma classe auxiliar que serve como DTO (Data Transfer Object), ou seja, é usada para transferência de dados (tanto entrada, quanto saída) entre cliente e servidor. nesse caso, ela garante a captura de dados do corpo da requisição HTTP (como JSON), para que eles possam ser usados pela aplicação. essa classe ajuda a manter a separação entre os dados recebidos da requisição e a entidade PopDiva [?].
