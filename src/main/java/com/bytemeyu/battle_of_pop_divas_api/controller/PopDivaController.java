@@ -41,7 +41,7 @@ public class PopDivaController {
         //o retorno desse metodo será uma ResponseEntity com o corpo do tipo PopDiva
         //@RequestBody: informa ao Spring que o corpo da requisição HTTP (normalmente um JSON) será transformado em um objeto Java do PopDivaRequest e será mapeado diretamente para o parâmetro request.
         PopDiva popDiva = popDivaService.postPopDiva(request.getName(), request.getMusicalGenre(), request.getNationality());
-        //é criado um objeto popDiva, do tipo PopDiva, por meio da chamada do metodo postPopDiva (com seus parâmetros) do serviço [!] popDivaService [ele não está chamando ele mesmo - o metodo do próprio controller, rs]. lembrando que o metodo postPopDiva do popDivaService [do tipo PopDivaService] não só cria a popDiva, como a adiciona ao array popDivas
+        //é criado um objeto popDiva, do tipo PopDiva, por meio da chamada do metodo postPopDiva (com seus parâmetros) do serviço [!] popDivaService [ele não está chamando ele mesmo - o metodo do próprio controller, rs]. lembrando que o metodo postPopDiva do popDivaService [do tipo PopDiva] não só cria a popDiva, como a adiciona ao array popDivas
 
         if (popDiva == null) {
             // Caso a PopDiva não seja criada, nesse caso por ser repetida, retorna 409 Conflict
@@ -84,7 +84,7 @@ public class PopDivaController {
         return ResponseEntity.ok(popDivaService.popDivaPresentation(popDivaName));
     }
 
-    @PostMapping("post-grammy-nominations")
+    @PostMapping("/post-grammy-nominations")
     public ResponseEntity<String> postGrammyNominations(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
         int grammyNominations = request.getGrammyNominations();
@@ -107,7 +107,7 @@ public class PopDivaController {
 
     }
 
-    @PostMapping("post-grammy-wins")
+    @PostMapping("/post-grammy-wins")
     public ResponseEntity<String> postGrammyWins(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
         int grammyWins = request.getGrammyWins();
@@ -124,17 +124,40 @@ public class PopDivaController {
 
         return ResponseEntity.ok("Grammy win added successfully");
     }
+
+    @PostMapping("/post-scandal")
+    public ResponseEntity<String> postScandal(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+        String scandalSeverity = request.getScandalSeverity();
+
+        if(popDivaName == null | scandalSeverity == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid input data");
+        }
+
+        if(!popDivaService.postScandalScore(popDivaName, scandalSeverity)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Pop diva not found");
+        }
+
+        return ResponseEntity.ok("Scandal added successfully");
+    }
 }
 
 
 
 class PopDivaRequest {
-    //PopDivaRequest é uma classe auxiliar que serve como DTO (Data Transfer Object), ou seja, é usada para transferência de dados (tanto entrada, quanto saída) entre cliente e servidor. nesse caso, ela garante a captura de dados do corpo da requisição HTTP (como JSON), para que eles possam ser usados pela aplicação. essa classe ajuda a manter a separação entre os dados recebidos da requisição e a entidade PopDiva [?].
+    //PopDivaRequest é uma classe auxiliar que serve como DTO (Data Transfer Object), ou seja, é usada para
+    // transferência de dados (tanto entrada, quanto saída) entre cliente e servidor. nesse caso, ela garante a
+    // captura de dados do corpo da requisição HTTP (como JSON), para que eles possam ser usados pela aplicação. essa
+    // classe ajuda a manter a separação entre os dados recebidos da requisição e a entidade PopDiva. essa classe diz
+    // respeito à requisição somente!
     private String name;
     private String musicalGenre;
     private String nationality;
     private int grammyNominations;
     private int grammyWins;
+    private String scandalSeverity;
 
     //esses getters e setters a seguir permitem que o Spring Boot mapeie automaticamente os valores do JSON recebido para os campos da classe [?].
     public String getName() {
@@ -176,4 +199,13 @@ class PopDivaRequest {
     public void setGrammyWins(int grammyWins) {
         this.grammyWins = grammyWins;
     }
+
+    public String getScandalSeverity() {
+        return scandalSeverity;
+    }
+
+    public void setScandalSeverity(String scandalsSeverity) {
+        this.scandalSeverity = scandalsSeverity;
+    }
+
 }

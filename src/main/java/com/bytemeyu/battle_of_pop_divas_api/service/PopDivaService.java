@@ -80,9 +80,16 @@ public class PopDivaService {
 
     public boolean postGrammyWins(String name, int grammyWins) {
         PopDiva diva = findPopDiva(name);
-        System.out.println(grammyWins + " (grammy wins)");
         if(diva != null) {
             return diva.addGrammyWins(grammyWins);
+        }
+        return false;
+    }
+
+    public boolean postScandalScore(String name, String severityOfTheScandal) {
+        PopDiva diva = findPopDiva(name);
+        if(diva != null) {
+            return diva.addScandalsScore(severityOfTheScandal);
         }
         return false;
     }

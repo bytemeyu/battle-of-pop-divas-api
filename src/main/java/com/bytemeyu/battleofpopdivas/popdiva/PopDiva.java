@@ -141,7 +141,7 @@ public class PopDiva implements PopDivaInterface{
     }
 
     @Override
-    public void addScandalsScore(String severityOfTheScandal) {
+    public boolean addScandalsScore(String severityOfTheScandal) {
         int scoreIncrement = 0;
 
         switch (severityOfTheScandal) {
@@ -164,7 +164,10 @@ public class PopDiva implements PopDivaInterface{
         if(scoreIncrement > 0){
             int totalScandalsScore = this.getScandalsScore() + scoreIncrement;
             this.setScandalsScore(totalScandalsScore);
+            return true;
         }
+
+        return false;
     }
 
     @Override
