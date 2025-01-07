@@ -171,12 +171,14 @@ public class PopDiva implements PopDivaInterface{
     }
 
     @Override
-    public void winBattle() {
+    public boolean winBattle() {
         this.setWins(this.getWins() + 1);
+        return true;
     }
 
     @Override
-    public void loseBattle() {
+    public boolean loseBattle() {
         this.setLosses(this.getLosses() + 1);
+        return false;
     }
 }

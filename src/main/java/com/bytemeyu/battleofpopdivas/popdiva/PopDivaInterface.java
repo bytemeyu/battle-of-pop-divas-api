@@ -6,6 +6,6 @@ public interface PopDivaInterface {
     public abstract boolean addGrammyNominations(int grammyNomination);
     public abstract boolean addGrammyWins(int grammyWin);
     public abstract boolean addScandalsScore(String severityOfTheScandal);
-    public abstract void winBattle ();
-    public abstract void loseBattle();
+    public abstract boolean winBattle ();
+    public abstract boolean loseBattle();
 }

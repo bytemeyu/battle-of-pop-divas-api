@@ -93,4 +93,24 @@ public class PopDivaService {
         }
         return false;
     }
+
+    public boolean postWinBattle(String name) {
+        System.out.println("Testando name WIN: " + name);
+        PopDiva diva = findPopDiva(name);
+        if(diva != null) {
+            System.out.println("Testando diva WIN: " + diva);
+            return diva.winBattle();
+        }
+        return false;
+    }
+
+    public boolean postLoseBattle(String name) {
+        System.out.println("Testando name LOSE: " + name);
+        PopDiva diva = findPopDiva(name);
+        if(diva != null) {
+            System.out.println("Testando diva LOSE: " + diva);
+            return diva.loseBattle();
+        }
+        return false;
+    }
 }

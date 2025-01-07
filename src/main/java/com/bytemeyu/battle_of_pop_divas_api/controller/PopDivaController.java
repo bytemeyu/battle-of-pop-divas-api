@@ -142,6 +142,43 @@ public class PopDivaController {
 
         return ResponseEntity.ok("Scandal added successfully");
     }
+
+    @PostMapping("/post-win-battle")
+    public ResponseEntity<String> postWinBattle(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+        System.out.println("Testando popDivaName WIN: " + popDivaName);
+
+        if(popDivaName == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid input data");
+        }
+
+        if(!popDivaService.postWinBattle(popDivaName)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Pop diva not found");
+        }
+
+        return ResponseEntity.ok("Win battle added successfully");
+    }
+
+
+    @PostMapping("/post-lose-battle")
+    public ResponseEntity<String> postLoseBattle(@RequestBody PopDivaRequest request) {
+        String popDivaName = request.getName();
+        System.out.println("Testando popDivaName LOSE: " + popDivaName);
+
+        if(popDivaName == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid input data");
+        }
+
+        if(!popDivaService.postLoseBattle(popDivaName)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Pop diva not founddd");
+        }
+
+        return ResponseEntity.ok("Win battle added successfully");
+    }
 }
 
 
@@ -158,6 +195,8 @@ class PopDivaRequest {
     private int grammyNominations;
     private int grammyWins;
     private String scandalSeverity;
+    private int wins;
+    private int losses;
 
     //esses getters e setters a seguir permitem que o Spring Boot mapeie automaticamente os valores do JSON recebido para os campos da classe [?].
     public String getName() {
@@ -206,6 +245,22 @@ class PopDivaRequest {
 
     public void setScandalSeverity(String scandalsSeverity) {
         this.scandalSeverity = scandalsSeverity;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
     }
 
 }
