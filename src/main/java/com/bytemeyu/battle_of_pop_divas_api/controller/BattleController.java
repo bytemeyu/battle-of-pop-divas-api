@@ -22,7 +22,6 @@ public class BattleController {
     @PostMapping("/create-battle")
     public ResponseEntity<Battle> createBattle(@RequestBody BattleRequest request) {
         String challengerName = request.getChallengerName();
-
         String challengedName = request.getChallengedName();
 
         Battle battle = battleService.createBattle(challengerName, challengedName);
@@ -44,12 +43,29 @@ public class BattleController {
 
         if(battle == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(null);
+                    .body("The battle was not found");
         }
 
         String battleStatus = battle.currentStatus();
 
         return ResponseEntity.ok(battleStatus);
+    }
+
+    @PostMapping("/start-battle")
+    public ResponseEntity<String> startBattle (@RequestBody BattleRequest request) {
+        String battleCode = request.getBattleCode();
+
+        Battle battle = battleService.findBattle(battleCode);
+
+        if(battle == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("The battle was not found, therefore it cannot happen");
+        }
+
+        battleService.startBattle(battleCode);
+
+        return ResponseEntity.ok("Battle started and completed");
+
     }
 }
 

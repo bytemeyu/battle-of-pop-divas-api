@@ -14,8 +14,10 @@ public class BattleService {
     public BattleService(PopDivaService popDivaService) {
         //esse é o construtor citado acima
         this.popDivaService = popDivaService;
-        //Aqui, o Spring automaticamente injeta uma instância do serviço PopDivaService na classe BattleService quando esse service é criado.
-        //Com isso, o service em questão pode usar o popDivaService para chamar métodos que existem no PopDivaService (como findPopDiva).
+        //aqui, o Spring automaticamente injeta uma instância (na verdade, a mesma instância criada anteriormente, no
+        // PopDivaController - é um bean) do serviço PopDivaService na classe BattleService quando esse service é
+        // criado. Com isso, o service em questão pode usar o popDivaService para chamar métodos que existem no
+        // PopDivaService (como findPopDiva).
     }
 
     private final ArrayList<Battle> battles = new ArrayList<>();
@@ -50,4 +52,10 @@ public class BattleService {
         return battle.currentStatus();
 
     }
+
+    public void startBattle (String battleCode) {
+        Battle battle = findBattle(battleCode);
+        battle.battleAndDetermineWinner();
+    }
+
 }
