@@ -2,13 +2,19 @@ package com.bytemeyu.battleofpopdivas.battle;
 
 import com.bytemeyu.battleofpopdivas.popdiva.PopDiva;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class Battle implements BattleInterface{
 
     private PopDiva challenger;
     private PopDiva challenged;
     private boolean approved;
+    private String battleCode;
+
+    private static final Set<String> generatedCodes = new HashSet<>();
+    // Armazena os códigos já gerados para garantir unicidade. Um Set não permite elementos duplicados. Se você tentar adicionar um elemento que já existe, ele não será incluído.
 
     public Battle(PopDiva challenger, PopDiva challenged) {
         this.setChallenger(challenger);
@@ -32,6 +38,7 @@ public class Battle implements BattleInterface{
 
         if(this.getChallenger() != this.getChallenged()){
             this.approved = true;
+            this.battleCode = generateBattleCode();
         } else {
             this.approved = false;
         }
@@ -45,14 +52,54 @@ public class Battle implements BattleInterface{
 //        this.approved = this.isApproved();
 //    }
 
-    public void currentStatus() {
-        System.out.println("_________");
-        System.out.println("Challenger: " + this.getChallenger().getName());
-        System.out.println("Challenged: " + this.getChallenged().getName());
-        System.out.println("Approved? " + this.isApproved());
+    public String generateBattleCode() {
+        Random random = new Random();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        String code;
+
+        do {
+            StringBuilder codeBuilder = new StringBuilder();
+            //Diferentemente da classe String, que é imutável (não pode ser alterada após sua criação), o StringBuilder permite modificar seu conteúdo diretamente, economizando recursos computacionais ao evitar a criação de novos objetos. A classe StringBuilder está no pacote padrão java.lang. Isso significa que ela é automaticamente importada para qualquer programa Java, sem necessidade de usar import.
+
+            // Gerar código de tamanho fixo (por exemplo, 8 caracteres):
+            for (int i = 0; i < 8; i++) {
+                int index = random.nextInt(characters.length());
+                //random define um número aleatório entre 0 e 35 (que é o comprimento da string characters) e armazena na variável index
+                codeBuilder.append(characters.charAt(index));
+                //characters.charAt(index) retorna o caractere na posição index da string characters e o adiciona a StringBuilder codeBuilder com .append (isso só é possível pois trata-se de uma StringBuilder e não de uma String
+                //isso é repetido 8 vezes, até criar a String code. lembrando que o incremento do i é gerenciado automaticamente pelo for e ocorre no final de cada ciclo (não é preciso fazer isso manualmente)
+            }
+
+            code = codeBuilder.toString() + "-" + challenger.getName().charAt(0) + challenged.getName().charAt(0);
+            //aqui transformamos codeBuilder em String e concatenamos o seu resultado com a primeira letra do nome do challenger e a primeira letra do nome do challenged. seu resultado foi armazenado na String, já inicializada, code
+        } while (generatedCodes.contains(code));
+        //generatedCodes.contains(code) verifica se o conjunto já contém o código gerado. Enquanto essa condição for verdadeira (o código existe), o loop continuará. Quando o código gerado não estiver no conjunto (contains retornar false), o do-while será encerrado.
+
+        System.out.println(code);
+        generatedCodes.add(code);
+        return code;
+    }
+
+    public String getBattleCode() {
+        return battleCode;
+    }
+
+    public void setBattleCode(String battleCode) {
+        this.battleCode = battleCode;
     }
 
 
+
+    public String currentStatus() {
+        String status = "_________\n" +
+                this.getChallenger().getName() + "\n" +
+                this.getChallenged().getName() + "\n" +
+                this.isApproved() + "\n" +
+                "Battle Code: " + (this.battleCode != null ? this.battleCode : "N/A") + "\n" +
+                "_________\n";
+
+        return status;
+    }
 
     private PopDiva randomMethod(String showdownType) {
         Random random = new Random();
@@ -71,7 +118,7 @@ public class Battle implements BattleInterface{
 
     @Override
     public PopDiva vocalShowdown() {
-        return randomMethod("VocaShowdown");
+        return randomMethod("Vocal Showdown");
     }
 
     @Override
