@@ -66,7 +66,7 @@ public class PopDivaController {
 
         if(popDivaName == null || popDivaService.findPopDiva(popDivaName) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
+                    .body("The pop diva was not found.");
         }
 
         return ResponseEntity.ok(popDivaService.popDivaCurrentStatus(popDivaName));
@@ -78,7 +78,7 @@ public class PopDivaController {
 
         if(popDivaName == null || popDivaService.findPopDiva(popDivaName) == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(null);
+                    .body("The pop diva was not found, therefore she cannot be introduced.");
         }
 
         return ResponseEntity.ok(popDivaService.popDivaPresentation(popDivaName));
@@ -95,15 +95,15 @@ public class PopDivaController {
 
         if(popDivaName == null || grammyNominations <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid input data");
+                    .body("Invalid input data.");
         }
 
         if(!popDivaService.postGrammyNominations(popDivaName, grammyNominations)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Pop diva not found");
+                    .body("Pop diva not found.");
         }
 
-        return ResponseEntity.ok("Grammy nomination added successfully");
+        return ResponseEntity.ok("Grammy nomination added successfully.");
 
     }
 
@@ -114,15 +114,15 @@ public class PopDivaController {
 
         if(popDivaName == null | grammyWins <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid input data");
+                    .body("Invalid input data.");
         }
 
         if(!popDivaService.postGrammyWins(popDivaName, grammyWins)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Pop diva not found");
+                    .body("Pop diva not found.");
         }
 
-        return ResponseEntity.ok("Grammy win added successfully");
+        return ResponseEntity.ok("Grammy win added successfully.");
     }
 
     @PostMapping("/post-scandal")
@@ -132,15 +132,15 @@ public class PopDivaController {
 
         if(popDivaName == null | scandalSeverity == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid input data");
+                    .body("Invalid input data.");
         }
 
         if(!popDivaService.postScandalScore(popDivaName, scandalSeverity)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Pop diva not found");
+                    .body("Pop diva not found.");
         }
 
-        return ResponseEntity.ok("Scandal added successfully");
+        return ResponseEntity.ok("Scandal added successfully.");
     }
 
     @PostMapping("/post-win-battle")
@@ -149,15 +149,15 @@ public class PopDivaController {
 
         if(popDivaName == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid input data");
+                    .body("Invalid input data.");
         }
 
         if(!popDivaService.postWinBattle(popDivaName)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Pop diva not found");
+                    .body("Pop diva not found.");
         }
 
-        return ResponseEntity.ok("Win battle added successfully");
+        return ResponseEntity.ok("Win battle added successfully.");
     }
 
     @PostMapping("/post-lose-battle")
@@ -166,15 +166,15 @@ public class PopDivaController {
 
         if(popDivaName == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Invalid input data");
+                    .body("Invalid input data.");
         }
 
         if(!popDivaService.postLoseBattle(popDivaName)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Pop diva not founddd");
+                    .body("Pop diva not found.");
         }
 
-        return ResponseEntity.ok("Win battle added successfully");
+        return ResponseEntity.ok("Win battle added successfully.");
     }
 }
 

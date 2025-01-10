@@ -43,7 +43,7 @@ public class BattleController {
 
         if(battle == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("The battle was not found");
+                    .body("The battle was not found.");
         }
 
         String battleStatus = battle.currentStatus();
@@ -59,12 +59,12 @@ public class BattleController {
 
         if(battle == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("The battle was not found, therefore it cannot happen");
+                    .body("The battle was not found, therefore it cannot happen.");
         }
 
         battleService.startBattle(battleCode);
 
-        return ResponseEntity.ok("Battle started and completed");
+        return ResponseEntity.ok("Battle started and completed.");
 
     }
 }
