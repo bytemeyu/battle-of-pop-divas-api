@@ -97,6 +97,8 @@ public class PopDiva implements PopDivaInterface{
         }
     }
 
+
+
     public String currentStatus() {
         String status = "_________\n" +
                         this.getName() + "\n" +
@@ -111,8 +113,6 @@ public class PopDiva implements PopDivaInterface{
 
         return status;
     }
-
-
 
     @Override
     public String presentation() {
@@ -179,6 +179,6 @@ public class PopDiva implements PopDivaInterface{
     @Override
     public boolean loseBattle() {
         this.setLosses(this.getLosses() + 1);
-        return false;
+        return true;
     }
 }
