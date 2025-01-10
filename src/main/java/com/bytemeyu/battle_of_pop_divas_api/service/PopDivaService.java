@@ -15,21 +15,6 @@ public class PopDivaService {
     //criando uma lista array para armazenar objetos do tipo PopDiva
     //A lista é declarada como "final" para garantir que sua referência não será alterada, embora os dados dentro dela possam ser modificados.
 
-    public PopDiva findPopDiva(String name) {
-        for (PopDiva diva : popDivas) {
-            //esse for percorre o array popDivas e nomeia cada elemento do array, em seu momento, como 'diva'
-            if(diva.getName().equalsIgnoreCase(name)) {
-                //diva.getName() retorna o nome de cada diva. se ele for igual (sem considerar a diferenciação entre maiúsculas e minúsculas) ao nome passado como parâmetro, entra nessa condição e...
-                System.out.println("Pop diva with name " + name + " exists.");
-                //imprime a frase acima na tela e...
-                return diva;
-                //retorna a PopDiva
-            }
-        }
-        return null;
-        //se a PopDiva não existir, retorna null
-    }
-
     public PopDiva postPopDiva(String name, String musicalGenre, String nationality) {
         //o metodo postPopDiva que cria e adiciona uma PopDiva ao array PopDivas e tem como retorno a PopDiva criada
         //tem como parâmetros name, musicalGenre e nationality (que são todos do tipo String)
@@ -46,6 +31,21 @@ public class PopDivaService {
         //o objeto popDiva criado é adicionado ao array popDivas
         return popDiva;
         //o metodo retorna o objeto popDiva criado
+    }
+
+    public PopDiva findPopDiva(String name) {
+        for (PopDiva diva : popDivas) {
+            //esse for percorre o array popDivas e nomeia cada elemento do array, em seu momento, como 'diva'
+            if(diva.getName().equalsIgnoreCase(name)) {
+                //diva.getName() retorna o nome de cada diva. se ele for igual (sem considerar a diferenciação entre maiúsculas e minúsculas) ao nome passado como parâmetro, entra nessa condição e...
+                System.out.println("Pop diva with name " + name + " exists.");
+                //imprime a frase acima na tela e...
+                return diva;
+                //retorna a PopDiva
+            }
+        }
+        return null;
+        //se a PopDiva não existir, retorna null
     }
 
     public ArrayList<PopDiva> getPopDivas() {
@@ -95,20 +95,16 @@ public class PopDivaService {
     }
 
     public boolean postWinBattle(String name) {
-        System.out.println("Testando name WIN: " + name);
         PopDiva diva = findPopDiva(name);
         if(diva != null) {
-            System.out.println("Testando diva WIN: " + diva);
             return diva.winBattle();
         }
         return false;
     }
 
     public boolean postLoseBattle(String name) {
-        System.out.println("Testando name LOSE: " + name);
         PopDiva diva = findPopDiva(name);
         if(diva != null) {
-            System.out.println("Testando diva LOSE: " + diva);
             return diva.loseBattle();
         }
         return false;

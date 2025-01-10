@@ -146,7 +146,6 @@ public class PopDivaController {
     @PostMapping("/post-win-battle")
     public ResponseEntity<String> postWinBattle(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
-        System.out.println("Testando popDivaName WIN: " + popDivaName);
 
         if(popDivaName == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -161,11 +160,9 @@ public class PopDivaController {
         return ResponseEntity.ok("Win battle added successfully");
     }
 
-
     @PostMapping("/post-lose-battle")
     public ResponseEntity<String> postLoseBattle(@RequestBody PopDivaRequest request) {
         String popDivaName = request.getName();
-        System.out.println("Testando popDivaName LOSE: " + popDivaName);
 
         if(popDivaName == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
